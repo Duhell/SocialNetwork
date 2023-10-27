@@ -6,7 +6,7 @@
             <!-- Modal header -->
             <div class="flex items-start justify-between p-4 border-b rounded-t">
                 <h3 class="text-xl font-semibold text-gray-900">
-                    Change Profile Picture
+                    SET YOUR PROFILE PICTURE
                 </h3>
                 <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center " data-modal-hide="defaultModal">
                     <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
@@ -17,13 +17,13 @@
             </div>
             <!-- Modal body -->
 
-            <form class="border shadow p-5 rounded-sm" action="{{ route('changeprofilepicture') }}" method="POST" enctype="multipart/form-data">
+            <form class="w-64 mx-auto p-7 rounded-sm" action="{{ route('changeprofilepicture') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <img class="rounded-full w-32 h-32 mx-auto border border-2" id="profilePicture" src="{{ $picture ? Storage::url($picture): "https://th.bing.com/th/id/OIP.WFEutOWYtepOJBTjwRW--QHaGV?pid=ImgDet&rs=1" }}" alt="">
-                <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar">Upload photo</label>
-                <input name="uploadProfilePic" class="block w-full text-sm text-gray-900 cursor-pointer bg-gray-50 focus:outline-none" aria-describedby="user_avatar_help" id="user_avatar" type="file">
-                <div class="mt-5">
-                    <x-button-click type="submit" title="Upload" />
+                <img class="rounded-full w-32 h-32 mx-auto border border-2" id="profilePicture" src="{{ $picture ? Storage::url($picture): "https://content.app-sources.com/s/05973560621083023/thumbnails/640x480/Images/Profile-ICON-5110482.png" }}" alt="">
+                <label class="block mb-2 text-sm font-medium text-gray-900" for="user_avatar">Upload:</label>
+                <input name="uploadProfilePic" class="block rounded-md  w-full text-sm text-gray-900 cursor-pointer focus:outline-none" aria-describedby="user_avatar_help" id="user_avatar" type="file">
+                <div class="mt-5 w-full flex justify-center">
+                    <x-button-click type="submit" title="Upload" class="bg-gray-900	text-white"/>
                 </div>
             </form>
         </div>

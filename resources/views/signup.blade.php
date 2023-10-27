@@ -12,7 +12,8 @@
             </ul>
         </div>
     @endif
-    <x-field type="text" title="Name"/>
+    <x-field type="text" title="First Name"/>
+    <x-field type="text" title="Last Name"/>
     <x-field type="text" title="Email"/>
     <x-field type="password" title="Password"/>
     <x-field type="password" title="Confirm Password"/>

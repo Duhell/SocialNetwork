@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -31,22 +33,23 @@ class UserController extends Controller
     public function signup(Request $request)
     {
 
-        if($request->hasAny('name','email','password','confirm_password')){
-
+        if($request->hasAny('first_name','last_name','email','password','confirm_password')){
             $request->validate([
-                'name'=>'required|max:255',
+                'first_name'=>'required|max:255',
+                'last_name'=>'required|max:255',
                 'email'=>'email|required|unique:users,email',
                 'password'=>'min:8|max:10|required',
                 'confirm_password' => 'required|same:password'
             ]);
 
-            $details = $request->only('name','email','password','confirm_password');
+            $details = $request->only('first_name','last_name','email','password','confirm_password');
             if($details['password'] !== $details['confirm_password']){
                 return redirect()->route('signup')->withErrors(['message'=>'Password does not match!']);
             }
             if($details){
                 $user = new User;
-                $user->name = $details['name'];
+                $user->firstname = $details['first_name'];
+                $user->lastname = $details['last_name'];
                 $user->email = $details['email'];
                 $user->password = Hash::make($details['password']);
                 $user->save();
@@ -70,9 +73,30 @@ class UserController extends Controller
 
     }
 
-    public function edit(Request $request){
+    public function editView(){
         $user = Auth::user();
         return view('LoginUserViews.userinfo',['data'=>$user]);
+    }
+
+    public function edit(Request $request){
+        try{
+            $user = Auth::user();
+            foreach($request->all() as $key=>$value){
+            if($key != '_token'){
+                $user->$key = $value;
+            }
+            }
+            $user->save();
+            return response()->json(['success'=>'Updated successfully.']);
+        }catch(Exception $error){
+            return response()->json(['error'=>$error]);
+        }
+    }
+
+    public function viewUser(string $id){
+        $user = User::find($id);
+        $posts = Post::where('user_id',$id)->get()->sortByDesc('created_at');
+        return view('LoginUserViews.viewUser',['data'=>$user,'posts'=>$posts]);
     }
 
     public function logout(){

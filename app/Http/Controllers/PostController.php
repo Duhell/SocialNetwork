@@ -20,13 +20,22 @@ class PostController extends Controller
         }
     }
     public function addpost(Request $request){
-        if($request->content_msg != "" || $request->content_msg != null){
+        if($request->input('content_msg') != "" || $request->input('content_msg') != null){
             $post = new Post;
-            $post->content = $request->content_msg;
+            $post->content = $request->input('content_msg');
             $post->user_id = auth()->user()->id;
             $post->save();
         }
-        return redirect()->back();
+        return response()->json(['successPost'=>'Post successfully.']);
+    }
+
+    public function destroy(string $id){
+        $post = Post::find($id);
+        if($post){
+            $post->delete();
+            return response()->json(['status'=>'success']);
+        }
+        return response()->json(['status'=>'error']);
     }
 
 }

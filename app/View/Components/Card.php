@@ -14,12 +14,16 @@ class Card extends Component
     public $time;
     public $picture;
     public $content;
-    public function __construct($name,$time,$content,$picture)
+    public $user;
+    public $postId;
+    public function __construct($name,$time,$content,$picture,$user,$postId)
     {
         $this->name = $name;
         $this->time = $time;
         $this->content = $content;
         $this->picture = $picture;
+        $this->user = $user;
+        $this->postId = $postId;
     }
     public function render(): View|Closure|string
     {
