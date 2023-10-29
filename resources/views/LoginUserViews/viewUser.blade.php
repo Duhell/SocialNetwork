@@ -2,8 +2,8 @@
 @section('title'," | ". $data->firstname)
 @section('contents')
 @auth
-    <div class="grid grid-cols-1 md:grid-cols-2 p-10 h-full container mx-auto">
-        <div>
+    <div class="grid relative overflow-hidden grid-cols-1 md:grid-cols-2 p-10 container mx-auto">
+        <div class="h-full">
         <x-tolink  link="{{ route('feeds') }}" title=" Go Back" class="text-xs text-slate-400"/>
             <div class="flex mt-7 p-7 gap-x-6">
                 <div class="w-32 h-32">
@@ -22,7 +22,7 @@
                 </div>
             </div>
         </div>
-        <div class="overflow-y-auto viewUser px-2 w-full relative">
+        <div class="overflow-y-auto  viewUser px-2 w-full relative" style="height: 450px;">
             <p class="font-semibold bg-white mb-6 fixed w-2/5">{{ $data->firstname }}'s Timeline</p>
             @foreach ($posts as $post )
                 <x-card postId="{{ $post->id }}" :user="$post->user->id" :name="$post->user->firstname.' '.$post->user->lastname" :time="$post->created_at->diffForHumans()" :content="$post->content" :picture="$post->user->profilepicture" class="my-4"/>

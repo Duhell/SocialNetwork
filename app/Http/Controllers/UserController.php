@@ -7,6 +7,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -97,6 +98,19 @@ class UserController extends Controller
         $user = User::find($id);
         $posts = Post::where('user_id',$id)->get()->sortByDesc('created_at');
         return view('LoginUserViews.viewUser',['data'=>$user,'posts'=>$posts]);
+    }
+
+    public function search(Request $request)
+    {
+        $users = DB::table('users')->where('firstname','LIKE','%' . $request->search .'%')->orWhere('lastname','LIKE','%'. $request->search .'%')->get();
+        return view('LoginUserViews.searchResult',[
+            'results' => $users
+        ])->render();
+    }
+
+    public function updateUserStatus(){
+        $users = User::where('last_seen','>',now()->subMinutes(5))->get();
+        return view('LoginUserViews.activeUsers',['onlineUsers'=>$users])->render();
     }
 
     public function logout(){

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('nickname')->nullable();
             $table->string('status')->nullable();
             $table->text('say')->nullable();
+            $table->timestamp('last_seen')->nullable();
             $table->timestamps();
         });
     }

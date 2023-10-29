@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AssassinAguilar/Alertism/dist/V2.0.0/main.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         *{
             font-family: 'Poppins', sans-serif;
@@ -37,7 +37,7 @@
     </style>
 </head>
 <body>
-    <main>
+    <main class="h-screen w-full">
         @yield('contents')
     </main>
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>

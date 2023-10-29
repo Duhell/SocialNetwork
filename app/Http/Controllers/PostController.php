@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dislikes;
+use App\Models\Likes;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +31,31 @@ class PostController extends Controller
         return response()->json(['successPost'=>'Post successfully.']);
     }
 
+    public function addLike(Request $request,Post $post){
+        $existingLike = Likes::where('user_id',Auth::id())->where('post_id', $post->id)->first();
+        if($existingLike === null){
+            $like = new Likes;
+            $like->user_id = Auth::id();
+            $like->post_id = $post->id;
+            $like->save();
+        }else{
+            $existingLike->delete();
+        }
+        return response()->json(['likeCounts'=> Likes::where('user_id',Auth::id())->count()]);
+    }
+    public function addDislike(Request $request,Post $post){
+        $existingDisLike = Dislikes::where('user_id',Auth::id())->where('post_id', $post->id)->first();
+        if($existingDisLike === null){
+            $dislike = new Dislikes;
+            $dislike->user_id = Auth::id();
+            $dislike->post_id = $post->id;
+            $dislike->save();
+        }else{
+            $existingDisLike->delete();
+        }
+        return response()->json(['dislikeCounts'=> Dislikes::where('user_id',Auth::id())->count()]);
+    }
+
     public function destroy(string $id){
         $post = Post::find($id);
         if($post){
@@ -37,5 +64,6 @@ class PostController extends Controller
         }
         return response()->json(['status'=>'error']);
     }
+
 
 }
