@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,10 @@ Route::post('/like/{post}',[PostController::class,'addLike'])->name('likePost')-
 Route::post('/dislike/{post}',[PostController::class,'addDislike'])->name('dislikePost')->middleware('auth');
 Route::delete('/delete/{id}',[PostController::class,'destroy'])->name('destroy')->middleware('auth');
 Route::post('/changeprofilepicture',[UserController::class,'changeProfilePicture'])->name('changeprofilepicture')->middleware('auth');
+
+Route::get('/comments/{post}',[CommentController::class,'index'])->name('comments')->middleware('auth');
+Route::post('/comments',[CommentController::class,'store'])->name('comments')->middleware('auth');
+
 
 Route::get('/personal-information',[UserController::class,'editView'])->name('editView')->middleware('auth');
 Route::get('/updateUserStatus',[UserController::class,'updateUserStatus'])->name('updateUserStatus')->middleware('seen');

@@ -109,7 +109,7 @@ class UserController extends Controller
     }
 
     public function updateUserStatus(){
-        $users = User::where('last_seen','>',now()->subMinutes(5))->get();
+        $users = User::where('last_seen','>',now()->subMinutes(3))->get();
         return view('LoginUserViews.activeUsers',['onlineUsers'=>$users])->render();
     }
 

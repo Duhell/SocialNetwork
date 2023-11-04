@@ -18,7 +18,8 @@ class Card extends Component
     public $postId;
     public $likes;
     public $dislikes;
-    public function __construct($name,$time,$content,$picture,$user,$postId,$likes ,$dislikes)
+    public $comments;
+    public function __construct($name,$time,$content,$picture,$user,$postId,$likes ,$dislikes,$comments)
     {
         $this->name = $name;
         $this->time = $time;
@@ -28,6 +29,7 @@ class Card extends Component
         $this->postId = $postId;
         $this->likes = $likes;
         $this->dislikes = $dislikes;
+        $this->comments = $comments;
     }
     public function render(): View|Closure|string
     {

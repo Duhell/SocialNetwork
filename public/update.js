@@ -21,6 +21,7 @@ function updateFeedsInterval() {
             $('#activeUsers').html(data)
             let total = $('#activeUsers').find('li').length
             $('#totalActiveUsers').text(`(${total} ${total > 1 ? 'users':'user'})`)
+
         }
     })
   }
@@ -56,6 +57,23 @@ function updateFeedsInterval() {
         })
         }
     })
+    $('#searchbar2').on('input',function(){
+        $('#searchResult_container').css('display','block')
+        let inputVal = $(this).val();
+        if(inputVal == ""){
+            $('#searchResult_container').css('display','none');
+            $('#resultList').html('');
+        }else{
+            $.ajax({
+            url: '/search_user',
+            type: 'GET',
+            data: {search:inputVal},
+            success: function(response){
+                $('#resultList').html(response);
+            }
+        })
+        }
+    })
 })
 
 // Like Feature
@@ -71,8 +89,10 @@ $(document).ready(function(){
             },
             success: function(response) {
             // Update the like count on the page.
-            button.find('span').text(`${response.likeCounts} ${response.likeCounts > 1 ? 'Likes':'Like'}`);
             updateOnPost()
+            setTimeout(()=>{
+                button.find('span').text(`${response.likeCounts}`);
+            },500)
         }
         })
     })
@@ -91,9 +111,10 @@ $(document).ready(function(){
             },
             success: function(response) {
             // Update the dislike count on the page.
-            button.find('span').text(`${response.dislikeCounts} ${response.dislikeCounts > 1 ? "Dislikes":'Dislike'}`);
-            updateOnPost();
-
+            updateOnPost()
+            setTimeout(()=>{
+                button.find('span').text(`${response.dislikeCounts}`);
+            },500)
         }
         })
     })

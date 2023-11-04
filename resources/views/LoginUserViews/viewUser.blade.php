@@ -5,8 +5,8 @@
     <div class="grid relative overflow-hidden grid-cols-1 md:grid-cols-2 p-10 container mx-auto">
         <div class="h-full">
         <x-tolink  link="{{ route('feeds') }}" title=" Go Back" class="text-xs text-slate-400"/>
-            <div class="flex mt-7 p-7 gap-x-6">
-                <div class="w-32 h-32">
+            <div class="flex flex-col md:flex-row mt-7 p-7 gap-x-6">
+                <div class="w-32 h-32 mx-auto md:mx-0">
                     <img data-modal-target="popup-modal" data-modal-toggle="popup-modal"  class="w-full cursor-pointer h-full rounded-full border border-2" src="{{ $data->profilepicture ? Storage::url($data->profilepicture) : "https://content.app-sources.com/s/05973560621083023/thumbnails/640x480/Images/Profile-ICON-5110482.png" }}" alt="">
                 </div>
                 <div class="mt-5">
@@ -23,9 +23,8 @@
             </div>
         </div>
         <div class="overflow-y-auto  viewUser px-2 w-full relative" style="height: 450px;">
-            <p class="font-semibold bg-white mb-6 fixed w-2/5">{{ $data->firstname }}'s Timeline</p>
             @foreach ($posts as $post )
-                <x-card postId="{{ $post->id }}" :user="$post->user->id" :name="$post->user->firstname.' '.$post->user->lastname" :time="$post->created_at->diffForHumans()" :content="$post->content" :picture="$post->user->profilepicture" class="my-4"/>
+                <x-card postId="{{ $post->id }}" :comments="$post->comments->count()" :likes="$post->likes->count()" :dislikes="$post->dislikes->count()" :user="$post->user->id" :name="$post->user->firstname.' '.$post->user->lastname" :time="$post->created_at->diffForHumans()" :content="$post->content" :picture="$post->user->profilepicture" class="my-4"/>
             @endforeach
         </div>
     </div>
@@ -46,6 +45,8 @@
           </div>
       </div>
   </div>
+  <x-comment-modal />
+  <script src="{{ asset('commentJS.js') }}"></script>
   <script src="{{ asset('delete.js') }}"></script>
 
 

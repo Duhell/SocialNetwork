@@ -3,17 +3,17 @@
 @section('contents')
 @auth
 <x-navbar :details="$bio" />
-    <div class="mt-20 grid-cols-1 md:grid-cols-4 grid gap-x-5 container mx-auto">
+    <div class="md:mt-20 mt-24 relative grid-cols-1 md:grid-cols-4 grid gap-x-5 container mx-auto">
         <div>
-            <form id="submitPost" class="border-0 h-full max-h-64 md:border md:shadow p-5 rounded-md">
+            <form id="submitPost" class="border-0 h-full max-h-64 md:border md:shadow py-5 px-4 rounded-md">
                 @csrf
                 <label for="message" class="block mb-2 text-sm font-medium text-gray-900">Post your message here...</label>
-                <textarea name="content_msg" id="message" rows="4" class="block resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 " placeholder="What's on your mind, {{ $bio->firstname }}?"></textarea>
+                <textarea name="content_msg" id="message" rows="4" class="block focus:outline-0 w-full resize-none p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 " placeholder="What's on your mind, {{ $bio->firstname }}?"></textarea>
                 <div class="mt-5">
-                    <x-button-click type="submit" title="Post" class="px-6 "/>
+                    <x-button-click type="submit" title="Post" class="px-6 float-right md:float-left"/>
                 </div>
             </form>
-            <div id="active_user" class="mt-6 relative">
+            <div id="active_user" class="mt-6 hidden md:block relative">
                 <div class="border-b-2">
                     <span>Online <span id="totalActiveUsers" class="text-xs italic"></span></span>
                 </div>
@@ -29,22 +29,16 @@
         <div data-aos="fade-up" class="flex overflow-y-scroll p-4 md:p-0 feeds  items-center col-span-2 flex-col gap-y-4 overflow-y-auto">
             @include('LoginUserViews.feeds')
         </div>
-        <div id="searchResult_container" class="hidden">
+        <div id="searchResult_container" class="absolute bg-white mt-2 top-0 left-0 right-0 p-2 md:p-0 md:mt-0  md:relative hidden">
             <ul id="resultList">
                 @include('LoginUserViews.searchResult')
             </ul>
         </div>
     </div>
     <x-modal :picture="$bio->profilepicture"/>
-    <script>
-        document.getElementById('user_avatar').addEventListener('change', function(e) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profilePicture').src = e.target.result;
-        }
-        reader.readAsDataURL(this.files[0]);
-    });
-    </script>
+    <x-comment-modal />
+    <script src="{{ asset('profileJS.js') }}"></script>
+    <script src="{{ asset('commentJS.js') }}"></script>
     <script src="{{ asset('update.js') }}"></script>
     <script src="{{ asset('delete.js') }}"></script>
 @endauth
